@@ -5,7 +5,7 @@
 #define vvi vector<vi >
 #define vb vector<bool>
 #define vvb vector<vb >
-#define fr(i,n) for(int i=0; i<(n); i++)
+#define fr(i,n) for(int i=0; i<(n); i++) 
 #define rep(i,a,n) for(int i=(a); i<=(n); i++)
 #define nl cout<<"\n"
 #define dbg(var) cout<<#var<<"="<<var<<" "
