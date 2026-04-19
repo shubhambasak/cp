@@ -19,15 +19,9 @@
 #define bin(x,y)  bitset<y>(x) 
 using namespace std;
 int MOD=1e9+7;      // Hardcoded, directly change from here for functions!
-<<<<<<< HEAD
- 
- 
- 
-=======
 
 
 
->>>>>>> df5a484 (few more)
 void modadd(int &a , int b) {a=((a%MOD)+(b%MOD))%MOD;}
 void modsub(int &a , int b) {a=((a%MOD)-(b%MOD)+MOD)%MOD;}
 void modmul(int &a , int b) {a=((a%MOD)*(b%MOD))%MOD;}
@@ -38,51 +32,29 @@ template<typename typC,typename typD> ostream &operator<<(ostream &cout,const pa
 template<typename typC,typename typD> ostream &operator<<(ostream &cout,const vector<pair<typC,typD>> &a) { for (auto &x:a) cout<<x<<'\n'; return cout; }
 template<typename typC> ostream &operator<<(ostream &cout,const vector<typC> &a) { int n=a.size(); if (!n) return cout; cout<<a[0]; for (int i=1; i<n; i++) cout<<' '<<a[i]; return cout; }
 // ===================================END Of the input module ==========================================
-<<<<<<< HEAD
- 
- 
-=======
 
 
->>>>>>> df5a484 (few more)
-void solve(){
+void solve() {
 	int n;
-	cin >> n; 
-	string s;
-	cin >> s; 
-	int sum = 0; 
-	int ops = 0;
-	fr(i,n){
-        if (s[i] == ')')sum--; 
-		else sum++; 
-        if (sum < 0) ops++, sum = 0;
-	}
-    cout << ops << endl;
+	cin >> n;
+
+	int b[n];
+	fr(i,n) cin >> b[i];
+	
+    map<int, long long> poss; 
+    fr(i,n) poss[i - b[i]] += b[i];
+	
+    int ans = 0;
+	for (auto [key, sum] : poss) ans = max(ans, sum); 
+    cout << ans << '\n';
 }
-<<<<<<< HEAD
- 
-=======
 
->>>>>>> df5a484 (few more)
-int32_t main()
-{
- 
- ios_base::sync_with_stdio(false);
- cin.tie(NULL);
-<<<<<<< HEAD
- 
-=======
 
->>>>>>> df5a484 (few more)
-    int T = 1;
-    cin >> T;
-    while (T--)
-    {
-        solve();
-    }
+int32_t main(){
+ 
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    solve();
     return 0;
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> df5a484 (few more)

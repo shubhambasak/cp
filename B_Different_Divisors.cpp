@@ -19,15 +19,9 @@
 #define bin(x,y)  bitset<y>(x) 
 using namespace std;
 int MOD=1e9+7;      // Hardcoded, directly change from here for functions!
-<<<<<<< HEAD
- 
- 
- 
-=======
 
 
 
->>>>>>> df5a484 (few more)
 void modadd(int &a , int b) {a=((a%MOD)+(b%MOD))%MOD;}
 void modsub(int &a , int b) {a=((a%MOD)-(b%MOD)+MOD)%MOD;}
 void modmul(int &a , int b) {a=((a%MOD)*(b%MOD))%MOD;}
@@ -38,51 +32,49 @@ template<typename typC,typename typD> ostream &operator<<(ostream &cout,const pa
 template<typename typC,typename typD> ostream &operator<<(ostream &cout,const vector<pair<typC,typD>> &a) { for (auto &x:a) cout<<x<<'\n'; return cout; }
 template<typename typC> ostream &operator<<(ostream &cout,const vector<typC> &a) { int n=a.size(); if (!n) return cout; cout<<a[0]; for (int i=1; i<n; i++) cout<<' '<<a[i]; return cout; }
 // ===================================END Of the input module ==========================================
-<<<<<<< HEAD
- 
- 
-=======
 
 
->>>>>>> df5a484 (few more)
-void solve(){
-	int n;
-	cin >> n; 
-	string s;
-	cin >> s; 
-	int sum = 0; 
-	int ops = 0;
-	fr(i,n){
-        if (s[i] == ')')sum--; 
-		else sum++; 
-        if (sum < 0) ops++, sum = 0;
-	}
-    cout << ops << endl;
-}
-<<<<<<< HEAD
- 
-=======
+vi primes;
+static const int LIM = 100000;
 
->>>>>>> df5a484 (few more)
-int32_t main()
-{
- 
- ios_base::sync_with_stdio(false);
- cin.tie(NULL);
-<<<<<<< HEAD
- 
-=======
+void sieve() {
+    vector<bool> is_prime(LIM + 1, true);
+    is_prime[0] = is_prime[1] = false;
 
->>>>>>> df5a484 (few more)
-    int T = 1;
-    cin >> T;
-    while (T--)
-    {
-        solve();
+    for (int i = 2; i * i <= LIM; i++) {
+        if (is_prime[i]) {
+            for (int j = i * i; j <= LIM; j += i)
+                is_prime[j] = false;
+        }
     }
+
+    for (int i = 2; i <= LIM; i++)
+        if (is_prime[i]) primes.push_back(i);
+}
+
+void solve() {
+    int d;
+    cin >> d;
+
+    int p = *lower_bound(primes.begin(), primes.end(), d + 1);
+    int q = *lower_bound(primes.begin(), primes.end(), p + d);
+
+    int ans = min(p * p * p, p * q);
+    cout << ans << "\n";
+}
+
+
+int32_t main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    sieve();   
+
+    int T;
+    cin >> T;
+    while (T--) solve();
+
     return 0;
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> df5a484 (few more)
+	
+
