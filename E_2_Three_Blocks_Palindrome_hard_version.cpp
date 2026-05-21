@@ -1,5 +1,5 @@
 #include "bits/stdc++.h"
-#define int long long
+// #define int long long
 #define uint unsigned long long
 #define vi vector<int>
 #define vvi vector<vi >
