@@ -11,11 +11,11 @@
 #define dbg(var) cout<<#var<<"="<<var<<" "
 #define all(v) v.begin(),v.end()
 #define sz(v) (int)(v.size())
-#define srt(v) sort(v.begin(),v.end())
-#define mxe(v) *max_element(v.begin(),v.end())
-#define mne(v) *min_element(v.begin(),v.end())
-#define unq(v) v.resize(distance(v.begin(), unique(v.begin(), v.end())));
-#define bin(x,y) bitset<y>(x)
+#define srt(v)  sort(v.begin(),v.end())
+#define mxe(v)  *max_element(v.begin(),v.end())
+#define mne(v)  *min_element(v.begin(),v.end())
+#define unq(v)  v.resize(distance(v.begin(), unique(v.begin(), v.end())));
+#define bin(x,y)  bitset<y>(x)
 
 using namespace std;
 
@@ -59,66 +59,35 @@ ostream &operator<<(ostream &cout,const vector<typC> &a){
 }
 
 // ===================================END Of the input module ==========================================
-
-void dfs(int x,vvi &adj,vi &color,bool &pos){
-    if(!pos)
-        return;
-    for(auto y:adj[x]){
-        if(color[y]!=-1){
-            if(color[y]==color[x]){
-                pos=false;
-                return;
-            }
-            continue;
+const int B_MAX=1000;
+vi dp(B_MAX+1,INT_MAX);
+void precompute(){
+    dp[1]=0;
+    rep(i,1,B_MAX){
+        rep(x,1,i){
+            int val=i+(i/x);
+            if(val<=B_MAX) dp[val]=min(dp[val],dp[i]+1);
         }
-        color[y]=1-color[x];
-        dfs(y,adj,color,pos);
     }
 }
 
 void solve(){
-    int n;
-    cin>>n;
-    vvi doms_for_num(n);
-    vector<pair<int,int>> domino(n);
-    fr(i,n){
-        cin>>domino[i];
-        doms_for_num[domino[i].first-1].push_back(i);
-        doms_for_num[domino[i].second-1].push_back(i);
-    }
-    bool pos=true;
-    vvi adj(n);
-    fr(v,n){
-        if(sz(doms_for_num[v])>2){
-            pos=false;
-            break;
-        }
-        if(sz(doms_for_num[v])==2){
-            int a=doms_for_num[v][0];
-            int b=doms_for_num[v][1];
-            adj[a].push_back(b);
-            adj[b].push_back(a);
-        }
-    }
-    if(!pos){
-        cout<<"NO"<<endl;
-        return;
-    }
-    vi color(n,-1);
-    fr(i,n){
-        if(!pos) break;
-        if(color[i]!=-1)
-            continue;
-
-        color[i]=0;
-        dfs(i,adj,color,pos);
-    }
-    cout<<(pos?"YES":"NO")<<endl;
+    int n,k;
+    cin>>n>>k;
+    vi b(n);
+    cin>>b;
+    fr(i,n) b[i]=dp[b[i]];
+    vi c(n);
+    cin>>c;
+    vi kdp(12*n+1,0);
+    fr(j,n) for(int i=12*n;i>=b[j];i--) kdp[i]=max(kdp[i],kdp[i-b[j]]+c[j]);
+    cout<<kdp[min(k,12*n)]<<endl;
 }
 
 int32_t main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
+    precompute();
     int T=1;
     cin>>T;
     while(T--) solve();
