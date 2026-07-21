@@ -95,4 +95,4 @@ int32_t main(){
     cin>>T;
     while(T--) solve();
     return 0;
-}
+}                           
