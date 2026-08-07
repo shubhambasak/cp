@@ -63,27 +63,23 @@ ostream &operator<<(ostream &cout,const vector<typC> &a){
 // ===================================END Of the input module ==========================================
 
 void solve(){
-    int n;
-    cin>>n;
-    vi weight(n);
-    cin>>weight;
-    vi suffix_sum(n);
-    map<int,int> index;
-    int sum=0;
-    for(int i=n-1;i>=0;i--){
-        sum+=weight[i];
-        index[sum]=i;
-        suffix_sum[i]=sum;
+    string s;
+    cin>>s;
+    int n=sz(s);
+    set<char> st;
+    int k;
+    for(k=0;k<n;k++){
+        if(st.count(s[k]))
+            break;
+        st.insert(s[k]);
     }
-    int ans=0;
-    int prefix_sum=0;
-    fr(i,n){
-        index.erase(suffix_sum[i]);
-        prefix_sum+=weight[i];
-        if(index.find(prefix_sum)!=index.end())
-            ans=max(ans,(i+1)+(n-index[prefix_sum]));
+    rep(i,k,n-1){
+        if(s[i]!=s[i-k]){
+            cout<<"NO", nl;
+            return;
+        }
     }
-    cout<<ans, nl;
+    cout<<"YES", nl;
 }
 
 int32_t main(){
