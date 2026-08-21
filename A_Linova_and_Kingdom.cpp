@@ -72,43 +72,39 @@ ostream &operator<<(ostream &cout,const vector<typC> &a){
 
 // ===================================END Of the input module ==========================================
 
+vi d,s,v;
+vvi adj;
+void dfs(int x,int p){
+    for(auto y:adj[x]){
+        if(y==p)
+            continue;
+        d[y]=d[x]+1;
+        dfs(y,x);
+        s[x]+=s[y]+1;
+    }
+    v[x]=d[x]-s[x];
+}
+
 void solve(){
-    int n;
-    cin>>n;
-    vi ans(n);
-    stack<int> pos_left;
-    set<int> vals_left;
-    fr(i,n){
-        pos_left.push(i);
-        vals_left.insert(i+1);
+    int n,k;
+    cin>>n>>k;
+    adj.assign(n,{});
+    d.assign(n,0);
+    s.assign(n,0);
+    v.assign(n,0);
+    fr(i,n-1){
+        int x,y;
+        cin>>x>>y;
+        x--;
+        y--;
+        adj[x].push_back(y);
+        adj[y].push_back(x);
     }
-    while(sz(pos_left)>=2){
-        int x=pos_left.top();
-        pos_left.pop();
-        int y=pos_left.top();
-        pos_left.pop();
-        cout<<"? "<<x+1<<" "<<y+1<<endl;
-        int a1;
-        cin>>a1;
-        cout<<"? "<<y+1<<" "<<x+1<<endl;
-        int a2;
-        cin>>a2;
-        int val=max(a1,a2);
-        vals_left.erase(val);
-        if(a1>a2){
-            ans[x]=a1;
-            pos_left.push(y);
-        }
-        else{
-            ans[y]=a2;
-            pos_left.push(x);
-        }
-    }
-    int v=*vals_left.begin();
-    ans[pos_left.top()]=v;
-    cout<<"! ";
-    for(auto x:ans) cout<<x<<" ";
-    cout<<endl<<"\n";
+    dfs(0,-1);
+    rsrt(v);
+    int ans=0;
+    fr(i,k) ans+=v[i];
+    cout<<ans, nl;
 }
 
 int32_t main(){
