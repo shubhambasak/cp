@@ -18,10 +18,9 @@
 #define mne(v) *min_element(all(v))
 #define unq(v) v.resize(distance(v.begin(),unique(all(v))))
 #define bin(x,y) bitset<y>(x)
-
 using namespace std;
 
-const int MOD=1e9+7;
+int MOD=1e9+7;
 
 void modadd(int &a,int b){
     a=((a%MOD)+(b%MOD))%MOD;
@@ -68,64 +67,32 @@ ostream &operator<<(ostream &cout,const vector<typC> &a){
     return cout;
 }
 
-
 // ===================================END Of the input module ==========================================
 
 void solve(){
-    int n;
-    cin>>n;
-    const int NMAX=300000;
-    vi primes;
-    vb isPrime(NMAX+1,true);
-    isPrime[0]=isPrime[1]=false;
-    for(int i=2;i<=NMAX;i++){
-        if(!isPrime[i])
-            continue;
-        primes.push_back(i);
-        if(i*i<=NMAX) for(int j=i*i;j<=NMAX;j+=i) isPrime[j]=false;
+    int n,k,Z;
+    cin>>n>>k>>Z;
+    vi a(n);
+    cin>>a;
+    int ans=0;
+    for(int z=0;z<=Z && 2*z<=k;z++){
+        int r=k-2*z;
+        int base=0;
+        rep(i,0,r) base+=a[i];
+        int bestPair=0;
+        rep(i,1,min(r+1,n-1))
+            bestPair=max(bestPair,a[i]+a[i-1]);
+        int res=base+z*bestPair;
+        ans=max(ans,res);
     }
-    map<int,int> cnt;
-    map<int,vi> ex;
-    fr(i,n){
-        int x;
-        cin>>x;
-        for(auto p:primes){
-            if(p*p>x)
-                break;
-            if(x%p) 
-                continue;
-            int e=0;
-            while(x%p==0){
-                x/=p;
-                e++;
-            }
-            cnt[p]++;
-            ex[p].push_back(e);
-            srt(ex[p]);
-            if(sz(ex[p])>2) ex[p].pop_back();
-        }
-        if(x>1){
-            cnt[x]++;
-            ex[x].push_back(1);
-        }
-    }
-    int ans=1;
-    for(auto [p,c]:cnt){
-        if(c<n-1)
-            continue;
-
-        int e=0;
-
-        if(c==n) e=ex[p][1];
-        else e=ex[p][0];
-        while(e--) ans*=p;
-    }
-    cout<<ans, nl;
+    cout<<ans<<endl;
 }
 
 int32_t main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    solve();
+    int T=1;
+    cin>>T;
+    while(T--) solve();
     return 0;
 }
