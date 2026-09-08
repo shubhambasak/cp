@@ -53,65 +53,34 @@ ostream &operator<<(ostream &cout,const vector<typC> &a){
     return cout;
 }
 
-bool check(int H,int W,vector<pair<int,int>> a){
-    multiset<pair<int,int>> sh,sw;
-    for(auto &p:a){
-        sh.insert({p.first,p.second});
-        sw.insert({p.second,p.first});
-    }
-    while(!sh.empty()){
-        auto itw=prev(sw.end());
-        auto ith=prev(sh.end());
-        if(itw->first==W){
-            int h=itw->second;
-            sw.erase(itw);
-            sh.erase(sh.find({h,W}));
-            H-=h;
-        }
-        else if(ith->first==H){
-            int w=ith->second;
-            sh.erase(ith);
-            sw.erase(sw.find({w,H}));
-            W-=w;
-        }
-        else return false;
-    }
-    return true;
-}
-
+const int INF=4e18;
 void solve(){
-    int n;
-    cin>>n;
-    vector<pair<int,int>> a(n);
-    int area=0,maxh=0,maxw=0;
-    fr(i,n){
-        cin>>a[i].first>>a[i].second;
-        area+=a[i].first*a[i].second;
-        maxh=max(maxh,a[i].first);
-        maxw=max(maxw,a[i].second);
+    int n,k;
+    cin>>n>>k;
+    vi a(n+1);
+    for(int i=1;i<=n;i++) cin>>a[i];
+    vi cold(k+1),hot(k+1);
+    for(int i=1;i<=k;i++) cin>>cold[i];
+    for(int i=1;i<=k;i++) cin>>hot[i];
+    vvi dp(n+1,vi(k+1,INF));
+    dp[1][0]=cold[a[1]];
+    for(int i=2;i<=n;i++){
+        int x=a[i];
+        for(int j=0;j<=k;j++){
+            if(dp[i-1][j]==INF) continue;
+            int cost1=(a[i]==a[i-1]?hot[x]:cold[x]);
+            dp[i][j]=min(dp[i][j],dp[i-1][j]+cost1);
+            int cost2=(j==x?hot[x]:cold[x]);
+            dp[i][a[i-1]]=min(dp[i][a[i-1]],dp[i-1][j]+cost2);
+        }
     }
-    vector<pair<int,int>> ans;
-    if(area%maxw==0){
-        int h=area/maxw;
-        if(check(h,maxw,a))
-            ans.push_back({h,maxw});
-    }
-    if(area%maxh==0){
-        int w=area/maxh;
-        if(check(maxh,w,a))
-            ans.push_back({maxh,w});
-    }
-    srt(ans);
-    ans.erase(unique(all(ans)),ans.end());
-    cout<<ans.size()<<"\n";
-    for(auto &p:ans)
-        cout<<p.first<<' '<<p.second<<"\n";
+    cout<<mne(dp[n])<<"\n";
 }
 
 int32_t main(){
-    ios_base::sync_with_stdio(false);
-    cin.tie(0);
-    int T=1;
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int T;
     cin>>T;
     while(T--) solve();
     return 0;
