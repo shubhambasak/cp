@@ -33,31 +33,22 @@ template<typename typC,typename typD> ostream &operator<<(ostream &cout,const ve
 template<typename typC> ostream &operator<<(ostream &cout,const vector<typC> &a) { int n=a.size(); if (!n) return cout; cout<<a[0]; for (int i=1; i<n; i++) cout<<' '<<a[i]; return cout; }
 // ===================================END Of the input module ==========================================
 
-
 void solve() {
-	int n, k;
-	cin >> n >> k;
-	long long a[n];
-	fr(i,n) cin >> a[i];
-    if (k >= 3){cout << 0 << '\n'; return;}
-    vi differences; 
-    fr(i,n){
-        for (int j = i + 1; j < n; j++) {
-			differences.push_back(abs(a[i] - a[j]));
-		}
-	}
-    sort(differences.begin(), differences.end()); 
-    int ans = LLONG_MAX;
-    fr(i,n) ans = min(ans, a[i]);
-    ans = min(ans, differences[0]);
+	int n;
+	cin >> n;
 
-	if (k == 2) {fr(i,n) {
-		auto it = lower_bound(differences.begin(), differences.end(), a[i]);
-        if (it != differences.end()) ans = min(ans, abs(*it - a[i]));
-        if (it != differences.begin()) ans = min(ans, abs(*it - a[i]));
-		}
-	}
-    cout << ans << '\n';
+	int a[n], b[n];
+	fr(i,n) cin >> a[i];
+	fr(i,n) cin >> b[i];
+	
+    int dp1[n], dp2[n];
+    dp1[0] = a[0];
+    dp2[0] = b[0]; 
+    for (int i = 1; i < n; i++){
+        dp1[i] = max(dp1[i - 1], dp2[i - 1] + a[i]); 
+        dp2[i] = max(dp2[i - 1], dp1[i - 1] + b[i]);
+    }
+    cout << max(dp1[n - 1], dp2[n - 1]) << '\n'; 
 }
 
 int32_t main()
@@ -66,11 +57,6 @@ int32_t main()
  ios_base::sync_with_stdio(false);
  cin.tie(NULL);
 
-    int T = 1;
-    cin >> T;
-    while (T--)
-    {
-        solve();
-    }
+    solve();
     return 0;
 }
