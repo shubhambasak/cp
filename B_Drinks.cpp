@@ -52,20 +52,18 @@ ostream &operator<<(ostream &cout,const vector<typC> &a){
     for(int i=1;i<n;i++) cout<<' '<<a[i];
     return cout;
 }
+
 void solve() {
     int n;
     cin >> n;
-
     double sum = 0;
     for (int i = 0; i < n; i++) {
         int p;
         cin >> p;
         sum += p;
     }
-
     cout << fixed << setprecision(12) << sum / n << '\n';
 }
-
 
 int32_t main(){
     ios::sync_with_stdio(false);
