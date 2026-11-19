@@ -56,24 +56,31 @@ ostream &operator<<(ostream &cout,const vector<typC> &a){
 void solve() {
     int n;
     cin >> n;
+
     vi a(n);
     cin >> a;
+
     int f = 0, z = 0;
+
     for (auto x : a) {
         if (x == 5) f++;
         else z++;
     }
+
     int cnt = (f / 9) * 9;
-    if (z == 0) cout << -1 << "\n";
-    else if (cnt == 0) cout << 0 << "\n";
-    else {
-        for (int i = 0; i < cnt; i++) cout << 5;
+
+    if (z == 0) {
+        cout << -1 << "\n";
+    }
+    else if (cnt == 0) {
         cout << 0 << "\n";
     }
+    else {
+        for (int i = 0; i < cnt; i++) cout << 5;
+        for (int i = 0; i < z; i++) cout << 0;
+        cout << "\n";
+    }
 }
-
-
-
 int32_t main(){
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
